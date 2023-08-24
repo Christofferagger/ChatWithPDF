@@ -1,12 +1,12 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const pdfjsLib = require('pdfjs-dist');
 const fs = require('fs').promises;
 const { RecursiveCharacterTextSplitter } = require('langchain/text_splitter');
 const FaissStore = require("langchain/vectorstores/faiss").FaissStore;
 const OpenAIEmbeddings = require("langchain/embeddings/openai").OpenAIEmbeddings;
-
 
 const app = express();
 const port = 4000;
@@ -30,11 +30,13 @@ async function processText(text) {
         textIDs.push(index);
     })
 
-    //const vectorStore = await FaissStore.fromTexts(
-        //textChunks,
-        //textIDs,
-        //new OpenAIEmbeddings()
-    //);
+    const db = await FaissStore.fromTexts(
+        textChunks,
+        textIDs,
+        new OpenAIEmbeddings()
+    );
+
+    
 }
 
 app.get('/api', (req, res) => {
