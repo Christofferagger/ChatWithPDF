@@ -1,4 +1,5 @@
 import './App.css';
+import PdfReader from './components/PdfReader.js';
 
 function App() {
   fetch('/api')
@@ -9,6 +10,7 @@ function App() {
   return (
     <div>
       <h1>Hello world</h1>
+      <PdfReader />
     </div>
   );
 }
