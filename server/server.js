@@ -36,7 +36,7 @@ async function processText(text) {
         new OpenAIEmbeddings()
     );
 
-    
+    return db;
 }
 
 app.get('/api', (req, res) => {
@@ -61,9 +61,13 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
     // Delete the temporary file
     await fs.unlink(filePath);
 
+    // create FAISS database
+    db = processText(textContent);
 
-    console.log('Got pdf');
-    processText(textContent);
+    if (db) {
+        console.log('Db not empty');
+    };
+
     res.json({ message: 'got pdf' });
 });
 
