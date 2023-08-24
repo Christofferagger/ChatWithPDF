@@ -14,8 +14,14 @@ function PdfReader() {
 
     const handleUpload = () => {
         if (selectedFile) {
-            // server code logic
-            console.log('recieved file', selectedFile);
+            const file = selectedFile;
+            const formData = new FormData();
+            formData.append('pdf', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json()).then(data => console.log(data));
         }
     };
 
