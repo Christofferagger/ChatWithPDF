@@ -3,18 +3,46 @@ const multer = require('multer');
 const path = require('path');
 const pdfjsLib = require('pdfjs-dist');
 const fs = require('fs').promises;
+const { RecursiveCharacterTextSplitter } = require('langchain/text_splitter');
+const FaissStore = require("langchain/vectorstores/faiss").FaissStore;
+const OpenAIEmbeddings = require("langchain/embeddings/openai").OpenAIEmbeddings;
+
 
 const app = express();
 const port = 4000;
 
 const upload = multer({ dest: "./pdfStorage/" })
 
+async function processText(text) {
+    const textSplitter = new RecursiveCharacterTextSplitter({
+        separator: "\n",
+        chunkSize: 1000,
+        chunkOverlap: 200
+    });
+
+    const chunks = await textSplitter.createDocuments([text]);
+
+    textChunks = [];
+    textIDs = [];
+
+    chunks.forEach((chunk, index) => {
+        textChunks.push(chunk.pageContent);
+        textIDs.push(index);
+    })
+
+    //const vectorStore = await FaissStore.fromTexts(
+        //textChunks,
+        //textIDs,
+        //new OpenAIEmbeddings()
+    //);
+}
+
 app.get('/api', (req, res) => {
     res.json({ message: 'Hello from the server!' });
 });
 
 app.post('/upload', upload.single('pdf'), async (req, res) => {
-    
+
     // Set up a temporary pdf file
     const filePath = path.join(__dirname, req.file.path);
 
@@ -32,9 +60,9 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
     await fs.unlink(filePath);
 
 
-    console.log('Got pdf')
-    console.log(textContent)
-    res.json({ message: 'got pdf' })
+    console.log('Got pdf');
+    processText(textContent);
+    res.json({ message: 'got pdf' });
 });
 
 app.listen(port, () => {
