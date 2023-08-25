@@ -15,6 +15,8 @@ const port = 4000;
 
 const upload = multer({ dest: "./pdfStorage/" })
 
+let db = null;
+
 async function processText(text) {
     const textSplitter = new RecursiveCharacterTextSplitter({
         separator: "\n",
@@ -32,13 +34,11 @@ async function processText(text) {
         textIDs.push(index);
     })
 
-    const db = await FaissStore.fromTexts(
+    return await FaissStore.fromTexts(
         textChunks,
         textIDs,
         new OpenAIEmbeddings()
     );
-
-    return db;
 }
 
 app.post('/upload', upload.single('pdf'), async (req, res) => {
@@ -60,7 +60,7 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
     await fs.unlink(filePath);
 
     // create FAISS database
-    db = processText(textContent);
+    db = await processText(textContent);
 
     if (db) {
         res.json({ message: true });
@@ -68,8 +68,22 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
 });
 
 app.post('/query', (req,res) => {
-    console.log(req.body.query);
-    res.json({ message: 'query received' });
+    // Check if database is initialized
+    if (db === null) {
+        res.status(400).json({ message: 'Database not initialized' });
+        return;
+    }
+
+    const query = req.body.query;
+    const prompt = db.similaritySearch(query, 2)
+        .then(prompt => {
+            console.log(prompt);
+            res.json({ message: 'query received' });
+        })
+        .catch(error => {
+            console.log(error);
+            res.json({ message: 'An error occurred' });
+        })
 })
 
 
