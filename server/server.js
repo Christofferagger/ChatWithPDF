@@ -110,15 +110,13 @@ app.post('/query', async (req,res) => {
             context: context 
         });
 
-        console.log(response);
-
         const costPerPromptToken = 0.0015 / 1000; // $0.0015 per 1,000 tokens
         const costPerCompletionToken = 0.002 / 1000; // $0.002 per 1,000 tokens
         const totalCostInDollars = (totalPromptTokens * costPerPromptToken) + (totalCompletionTokens * costPerCompletionToken);
 
         console.log(`Total cost: $${totalCostInDollars}`);
 
-        res.json({ message: 'query received' });
+        res.json({ response });
 
     } catch (error) {
         console.log(error);

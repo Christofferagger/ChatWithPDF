@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function Query({ boolian }) {
 
     const [inputValue, setInputValue] = useState('');
+    const [queryResponse, setQueryResponse] = useState('');
 
     const placeholderText = boolian ? 'What would you like to know?' : '<-- insert pdf';
 
@@ -22,7 +23,9 @@ function Query({ boolian }) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify( {query: inputValue })
-            }).then(response => response.json()).then(data => console.log(data))
+            }).then(response => response.json()).then(data => {
+                setQueryResponse(data.response.text);
+            })
             };
         };
 
@@ -40,6 +43,7 @@ function Query({ boolian }) {
             >
                 Submit
             </button>
+            <p>{queryResponse}</p>
         </div>
     )
 };
