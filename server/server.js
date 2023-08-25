@@ -90,6 +90,18 @@ app.post('/query', async (req,res) => {
 
         const model = new ChatOpenAI({ 
             modelName: "gpt-3.5-turbo",
+            callbacks: [
+                {
+                    handleLLMEnd: (output, runId, parentRunId, tags) => {
+                        if (output && output.llmOutput && output.llmOutput.tokenUsage) {
+                            const tokenUsage = output.llmOutput.tokenUsage;
+                            totalCompletionTokens += tokenUsage.completionTokens || 0;
+                            totalPromptTokens += tokenUsage.promptTokens || 0;
+                            totalExecutionTokens += tokenUsage.totalTokens || 0;
+                        }
+                    },
+                }
+            ],
          });
         const chain = RetrievalQAChain.fromLLM(model, db.asRetriever());
 
@@ -100,11 +112,14 @@ app.post('/query', async (req,res) => {
 
         console.log(response);
 
-        console.log(`Total completion tokens: ${totalCompletionTokens}`);
-        console.log(`Total prompt tokens: ${totalPromptTokens}`);
-        console.log(`Total execution tokens: ${totalExecutionTokens}`);
+        const costPerPromptToken = 0.0015 / 1000; // $0.0015 per 1,000 tokens
+        const costPerCompletionToken = 0.002 / 1000; // $0.002 per 1,000 tokens
+        const totalCostInDollars = (totalPromptTokens * costPerPromptToken) + (totalCompletionTokens * costPerCompletionToken);
+
+        console.log(`Total cost: $${totalCostInDollars}`);
 
         res.json({ message: 'query received' });
+
     } catch (error) {
         console.log(error);
         res.json({ message: 'An error occurred', error: error });
