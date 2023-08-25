@@ -8,7 +8,9 @@ const { RecursiveCharacterTextSplitter } = require('langchain/text_splitter');
 const FaissStore = require("langchain/vectorstores/faiss").FaissStore;
 const OpenAIEmbeddings = require("langchain/embeddings/openai").OpenAIEmbeddings;
 
+
 const app = express();
+app.use(express.json());
 const port = 4000;
 
 const upload = multer({ dest: "./pdfStorage/" })
@@ -39,10 +41,6 @@ async function processText(text) {
     return db;
 }
 
-app.get('/api', (req, res) => {
-    res.json({ message: 'Hello from the server!' });
-});
-
 app.post('/upload', upload.single('pdf'), async (req, res) => {
 
     // Set up a temporary pdf file
@@ -66,9 +64,13 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
 
     if (db) {
         res.json({ message: true });
-        console.log('Db not Empty');
     }
 });
+
+app.post('/query', (req,res) => {
+    console.log(req.body.query);
+    res.json({ message: 'query received' });
+})
 
 
 app.listen(port, () => {
