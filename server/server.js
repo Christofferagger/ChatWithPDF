@@ -7,6 +7,9 @@ const fs = require('fs').promises;
 const { RecursiveCharacterTextSplitter } = require('langchain/text_splitter');
 const FaissStore = require("langchain/vectorstores/faiss").FaissStore;
 const OpenAIEmbeddings = require("langchain/embeddings/openai").OpenAIEmbeddings;
+const { RetrievalQAChain } = require("langchain/chains");
+const { ChatOpenAI } = require("langchain/chat_models/openai");
+
 
 
 const app = express();
@@ -67,7 +70,7 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
     }
 });
 
-app.post('/query', (req,res) => {
+app.post('/query', async (req,res) => {
     // Check if database is initialized
     if (db === null) {
         res.status(400).json({ message: 'Database not initialized' });
@@ -75,16 +78,38 @@ app.post('/query', (req,res) => {
     }
 
     const query = req.body.query;
-    const prompt = db.similaritySearch(query, 2)
-        .then(prompt => {
-            console.log(prompt);
-            res.json({ message: 'query received' });
-        })
-        .catch(error => {
-            console.log(error);
-            res.json({ message: 'An error occurred' });
-        })
-})
+
+    try {
+        const prompt = await db.similaritySearch(query, 2)
+
+        const context = prompt.map(doc => doc.pageContent).join(' ');
+
+        let totalCompletionTokens = 0;
+        let totalPromptTokens = 0;
+        let totalExecutionTokens = 0;
+
+        const model = new ChatOpenAI({ 
+            modelName: "gpt-3.5-turbo",
+         });
+        const chain = RetrievalQAChain.fromLLM(model, db.asRetriever());
+
+        const response = await chain.call({
+            query: query,
+            context: context 
+        });
+
+        console.log(response);
+
+        console.log(`Total completion tokens: ${totalCompletionTokens}`);
+        console.log(`Total prompt tokens: ${totalPromptTokens}`);
+        console.log(`Total execution tokens: ${totalExecutionTokens}`);
+
+        res.json({ message: 'query received' });
+    } catch (error) {
+        console.log(error);
+        res.json({ message: 'An error occurred', error: error });
+    }
+});
 
 
 app.listen(port, () => {
