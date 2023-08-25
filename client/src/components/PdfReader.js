@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function PdfReader() {
+function PdfReader({ pdfprocessed }) {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleFileChange = (event) => {
@@ -16,12 +16,14 @@ function PdfReader() {
         if (selectedFile) {
             const file = selectedFile;
             const formData = new FormData();
-            formData.append('pdf', file);
+            formData.append('pdf', file); 
 
             fetch('/upload', {
                 method: 'POST',
                 body: formData
-            }).then(response => response.json()).then(data => console.log(data));
+            }).then(response => response.json()).then(function (data) {
+                pdfprocessed(data.message);
+            });
         }
     };
 

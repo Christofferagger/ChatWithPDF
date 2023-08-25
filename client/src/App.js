@@ -1,16 +1,21 @@
+import React, { useState } from 'react';
 import './App.css';
 import PdfReader from './components/PdfReader.js';
+import Query from './components/query.js';
 
 function App() {
-  fetch('/api')
-  .then((response) => response.json())
-  .then((data) => console.log(data.message))
-  .catch((error) => console.error('There was an error!', error));
+
+  const [boolianValue, setBoolianValue] = useState(null);
+
+  const handleprocess = (status) => {
+    setBoolianValue(status);
+  }
 
   return (
     <div>
       <h1>Hello world</h1>
-      <PdfReader />
+      <PdfReader pdfprocessed={handleprocess} />
+      <Query boolian={boolianValue} />
     </div>
   );
 }

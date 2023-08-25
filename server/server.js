@@ -65,11 +65,11 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
     db = processText(textContent);
 
     if (db) {
-        console.log('Db not empty');
-    };
-
-    res.json({ message: 'got pdf' });
+        res.json({ message: true });
+        console.log('Db not Empty');
+    }
 });
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
