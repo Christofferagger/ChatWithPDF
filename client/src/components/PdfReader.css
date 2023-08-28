@@ -1,0 +1,33 @@
+.layout {
+    width: 17.5rem;
+    height: 100vh;
+    background-color: rgba(225, 244, 250, 1);
+    border-radius: 0px 12px 12px 0px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custumFileInput {
+    cursor: pointer;
+    font-weight: 700;
+    color: rgba(0, 161, 252, 1);
+    text-decoration: underline; 
+    position: absolute;
+    bottom: 5.25rem;
+}
+
+.submit {
+    box-sizing: border-box;
+    width: calc(100% - 2.5rem);
+    margin: 0rem 1.25rem;
+    padding: 12px;
+    border-radius: 0.5rem;
+    position: absolute;
+    bottom: 1.75rem;
+    font-weight: 700;
+    border: 0rem;
+    color: rgba(249, 249, 249, 1);
+    background-color: rgba(0, 161, 252, 1);
+}

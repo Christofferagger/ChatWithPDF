@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Exit from '../assets/Exit.svg';
+import './PdfReader.css';
 
 function PdfReader({ pdfprocessed }) {
     const [selectedFile, setSelectedFile] = useState([]);
@@ -38,8 +39,9 @@ function PdfReader({ pdfprocessed }) {
     };
 
     return (
-        <div>
-            <input type="file" accept=".pdf" onChange={handleFileChange} />
+        <div className='layout'>
+            <input type="file" accept=".pdf" onChange={handleFileChange} style={{ display: 'none' }} id="fileinput"/>
+            <label htmlFor='fileinput' className='custumFileInput'>Add PDF</label>
             <div>
                 {
                     selectedFile.map((file, index) => (
@@ -52,7 +54,7 @@ function PdfReader({ pdfprocessed }) {
                     ))
                 }
             </div>
-            <button onClick={handleUpload}>Submit</button>
+            <button onClick={handleUpload} className='submit'>Submit</button>
         </div>
     )
 }

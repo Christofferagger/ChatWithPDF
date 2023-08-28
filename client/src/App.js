@@ -18,11 +18,13 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>Hello world</h1>
+    <div className='parent'>
       <PdfReader pdfprocessed={handleprocess} />
-      <Query boolian={boolianValue} chat={getChatHistory} />
-      <Chat chat={chatHistory} />
+        <div className='content'>
+          <h1>ChatWithPDF</h1>
+          <Chat chat={chatHistory} />
+          <Query boolian={boolianValue} chat={getChatHistory} />
+      </div>
     </div>
   );
 }
