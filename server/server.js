@@ -20,7 +20,9 @@ const upload = multer({ dest: "./pdfStorage/" });
 
 let vectorDB = null;
 
-let simelaritySearchLength = 0;
+let simelaritySearchLength;
+
+let chatHistory = [];
 
 async function processText(text) {
     const textSplitter = new RecursiveCharacterTextSplitter({
@@ -96,8 +98,6 @@ app.post('/query', async (req,res) => {
     try {
         const prompt = await vectorDB.similaritySearch(query, simelaritySearchLength);
 
-        console.log(prompt);
-
         const context = prompt.map(doc => doc.pageContent).join(' ');
 
         let totalCompletionTokens = 0;
@@ -119,12 +119,27 @@ app.post('/query', async (req,res) => {
                 }
             ],
          });
-        const chain = RetrievalQAChain.fromLLM(model, vectorDB.asRetriever());
 
-        const response = await chain.call({
-            query: query,
-            context: context 
-        });
+        const history = chatHistory.map(interaction => `${interaction['question']} ${interaction['response']}`).join(" ");
+        const chain = RetrievalQAChain.fromLLM(model, vectorDB.asRetriever());
+        let response = '';
+
+        if (chatHistory.length > 0) {
+            question = `context: ${history}\nQuestion: ${query}`;
+            response = await chain.call({
+                query: question,
+                context: context
+            });
+          } else {
+            response = await chain.call({
+                query: query,
+                context: context 
+            });
+          }
+
+          chatHistory.push({'question': query, 'response': response});
+
+          console.log(chatHistory);
 
         const costPerPromptToken = 0.0015 / 1000; // $0.0015 per 1,000 tokens
         const costPerCompletionToken = 0.002 / 1000; // $0.002 per 1,000 tokens
