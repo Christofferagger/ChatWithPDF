@@ -16,9 +16,11 @@ const app = express();
 app.use(express.json());
 const port = 4000;
 
-const upload = multer({ dest: "./pdfStorage/" })
+const upload = multer({ dest: "./pdfStorage/" });
 
 let vectorDB = null;
+
+let simelaritySearchLength = 0;
 
 async function processText(text) {
     const textSplitter = new RecursiveCharacterTextSplitter({
@@ -47,6 +49,8 @@ async function processText(text) {
 app.post('/upload', upload.array('pdf'), async (req, res) => {
 
     let dbArray = [];
+
+    simelaritySearchLength = req.files.length;
 
     for (const file of req.files) {
         const filePath = path.join(__dirname, file.path);
@@ -90,7 +94,9 @@ app.post('/query', async (req,res) => {
     const query = req.body.query;
 
     try {
-        const prompt = await vectorDB.similaritySearch(query, 2)
+        const prompt = await vectorDB.similaritySearch(query, simelaritySearchLength);
+
+        console.log(prompt);
 
         const context = prompt.map(doc => doc.pageContent).join(' ');
 

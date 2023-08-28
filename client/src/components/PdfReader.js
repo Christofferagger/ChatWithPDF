@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Exit from '../assets/Exit.svg';
 
 function PdfReader({ pdfprocessed }) {
     const [selectedFile, setSelectedFile] = useState([]);
@@ -11,6 +12,12 @@ function PdfReader({ pdfprocessed }) {
             alert('not valid PDF file');
         }
     };
+
+    const removeFile = (index) => {
+        const newSelectedFile = [...selectedFile];
+        newSelectedFile.splice(index, 1);
+        setSelectedFile(newSelectedFile);
+    }
 
     const handleUpload = () => {
         const formData = new FormData();
@@ -36,7 +43,12 @@ function PdfReader({ pdfprocessed }) {
             <div>
                 {
                     selectedFile.map((file, index) => (
-                        <h3 key={index}>{file.name}</h3>
+                        <div key={index}>
+                            <h3>{file.name}</h3>
+                            <a href="#" onClick={removeFile}>
+                                <img src={Exit} alt="Exit button" />
+                            </a>
+                        </div>
                     ))
                 }
             </div>
