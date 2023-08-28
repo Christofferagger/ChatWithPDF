@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-function Query({ boolian }) {
+function Query({ boolian, chat }) {
 
     const [inputValue, setInputValue] = useState('');
-    const [queryResponse, setQueryResponse] = useState('');
 
     const placeholderText = boolian ? 'What would you like to know?' : '<-- insert pdf';
 
@@ -24,7 +23,7 @@ function Query({ boolian }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify( {query: inputValue })
             }).then(response => response.json()).then(data => {
-                setQueryResponse(data.response.text);
+                chat(data);
             })
             };
         };
@@ -43,7 +42,6 @@ function Query({ boolian }) {
             >
                 Submit
             </button>
-            <p>{queryResponse}</p>
         </div>
     )
 };

@@ -20,7 +20,7 @@ const upload = multer({ dest: "./pdfStorage/" });
 
 let vectorDB = null;
 
-let simelaritySearchLength;
+let similaritySearchLength;
 
 let chatHistory = [];
 
@@ -52,7 +52,7 @@ app.post('/upload', upload.array('pdf'), async (req, res) => {
 
     let dbArray = [];
 
-    simelaritySearchLength = req.files.length;
+    similaritySearchLength = req.files.length;
 
     for (const file of req.files) {
         const filePath = path.join(__dirname, file.path);
@@ -96,7 +96,7 @@ app.post('/query', async (req,res) => {
     const query = req.body.query;
 
     try {
-        const prompt = await vectorDB.similaritySearch(query, simelaritySearchLength);
+        const prompt = await vectorDB.similaritySearch(query, similaritySearchLength);
 
         const context = prompt.map(doc => doc.pageContent).join(' ');
 
@@ -139,15 +139,13 @@ app.post('/query', async (req,res) => {
 
           chatHistory.push({'question': query, 'response': response});
 
-          console.log(chatHistory);
-
         const costPerPromptToken = 0.0015 / 1000; // $0.0015 per 1,000 tokens
         const costPerCompletionToken = 0.002 / 1000; // $0.002 per 1,000 tokens
         const totalCostInDollars = (totalPromptTokens * costPerPromptToken) + (totalCompletionTokens * costPerCompletionToken);
 
         console.log(`Total cost: $${totalCostInDollars}`);
 
-        res.json({ response });
+        res.json({ chatHistory });
 
     } catch (error) {
         console.log(error);
