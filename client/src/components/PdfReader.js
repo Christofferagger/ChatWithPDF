@@ -4,11 +4,15 @@ import './PdfReader.css';
 
 function PdfReader({ pdfprocessed }) {
     const [selectedFile, setSelectedFile] = useState([]);
+    const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
+    const [submittedFiles, setSubmittedFiles] = useState([]);
+
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file && file.type === 'application/pdf') {
             setSelectedFile([...selectedFile, file]);
+            setIsReadyToSubmit(true);
         } else {
             alert('not valid PDF file');
         }
@@ -18,6 +22,7 @@ function PdfReader({ pdfprocessed }) {
         const newSelectedFile = [...selectedFile];
         newSelectedFile.splice(index, 1);
         setSelectedFile(newSelectedFile);
+        setIsReadyToSubmit(true);
     }
 
     const handleUpload = () => {
@@ -34,6 +39,8 @@ function PdfReader({ pdfprocessed }) {
         .then(response => response.json())
         .then(function (data) {
             pdfprocessed(data.message);
+            setIsReadyToSubmit(false);
+            setSubmittedFiles([...selectedFile]);
         })
         .catch(error => console.log('Error in file uploading: ', error));
     };
@@ -42,10 +49,10 @@ function PdfReader({ pdfprocessed }) {
         <div className='layout'>
             <input type="file" accept=".pdf" onChange={handleFileChange} style={{ display: 'none' }} id="fileinput"/>
             <label htmlFor='fileinput' className='custumFileInput'>Add PDF</label>
-            <div>
+            <div className='layout2'>
                 {
                     selectedFile.map((file, index) => (
-                        <div key={index}>
+                        <div key={index} className={`pdf ${submittedFiles.includes(file) ? 'submittedPDF' : 'uploadedPDF'}`}>
                             <h3>{file.name}</h3>
                             <a href="#" onClick={removeFile}>
                                 <img src={Exit} alt="Exit button" />
@@ -54,7 +61,7 @@ function PdfReader({ pdfprocessed }) {
                     ))
                 }
             </div>
-            <button onClick={handleUpload} className='submit'>Submit</button>
+            <button onClick={handleUpload} className={`submit ${isReadyToSubmit ? 'active' : ''}`}>Submit</button>
         </div>
     )
 }
