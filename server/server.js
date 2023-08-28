@@ -18,7 +18,7 @@ const port = 4000;
 
 const upload = multer({ dest: "./pdfStorage/" })
 
-let db = null;
+let vectorDB = null;
 
 async function processText(text) {
     const textSplitter = new RecursiveCharacterTextSplitter({
@@ -44,35 +44,45 @@ async function processText(text) {
     );
 }
 
-app.post('/upload', upload.single('pdf'), async (req, res) => {
+app.post('/upload', upload.array('pdf'), async (req, res) => {
 
-    // Set up a temporary pdf file
-    const filePath = path.join(__dirname, req.file.path);
+    let dbArray = [];
 
-    // Read the pdf file using pdf.js
-    const pdf = await pdfjsLib.getDocument(filePath).promise;
-    let textContent = '';
+    for (const file of req.files) {
+        const filePath = path.join(__dirname, file.path);
+        const pdf = await pdfjsLib.getDocument(filePath).promise;
+        let textContent = '';
 
-    for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        textContent += content.items.map(item => item.str).join(' ');
-    }
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const content = await page.getTextContent();
+            textContent += content.items.map(item => item.str).join(' ');
+        }
 
-    // Delete the temporary file
-    await fs.unlink(filePath);
+        await fs.unlink(filePath);
 
-    // create FAISS database
-    db = await processText(textContent);
+        db = await processText(textContent);
 
-    if (db) {
+        if (db) {
+            dbArray.push(db);
+        }
+    };
+
+    vectorDB = await dbArray[0];
+
+    for (let i = 1; i < dbArray.length; i++) {
+        await vectorDB.mergeFrom(dbArray[i]);
+    };
+
+    if (vectorDB) {
         res.json({ message: true });
     }
+
 });
 
 app.post('/query', async (req,res) => {
     // Check if database is initialized
-    if (db === null) {
+    if (vectorDB === null) {
         res.status(400).json({ message: 'Database not initialized' });
         return;
     }
@@ -80,7 +90,7 @@ app.post('/query', async (req,res) => {
     const query = req.body.query;
 
     try {
-        const prompt = await db.similaritySearch(query, 2)
+        const prompt = await vectorDB.similaritySearch(query, 2)
 
         const context = prompt.map(doc => doc.pageContent).join(' ');
 
@@ -103,7 +113,7 @@ app.post('/query', async (req,res) => {
                 }
             ],
          });
-        const chain = RetrievalQAChain.fromLLM(model, db.asRetriever());
+        const chain = RetrievalQAChain.fromLLM(model, vectorDB.asRetriever());
 
         const response = await chain.call({
             query: query,
