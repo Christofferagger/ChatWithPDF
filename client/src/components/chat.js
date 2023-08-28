@@ -9,7 +9,7 @@ function Chat ({ chat }) {
         <div>
             {
                 Array.isArray(chatLog) && chatLog.length > 0 ? (
-                    test.map((entry, index) => {
+                    chatLog.map((entry, index) => {
                         const question = entry.question;
                         const response = entry.response.text;
 
