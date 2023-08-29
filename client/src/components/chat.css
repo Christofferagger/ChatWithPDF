@@ -1,0 +1,11 @@
+.chatDiv {
+    display: flex;
+    align-items: flex-start;
+    border-top: 1px solid rgba(33, 33, 33, 0.1);
+    padding: 2rem 2.5rem 2rem 1.5rem;
+    text-align: left;
+}
+
+.iconSpace {
+    margin-right: 0.75rem;
+}

@@ -4,6 +4,7 @@ import './query.css';
 function Query({ boolian, chat }) {
 
     const [inputValue, setInputValue] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const textareaRef = useRef(null);
 
     useEffect(() => {
@@ -15,6 +16,7 @@ function Query({ boolian, chat }) {
                 textarea.style.height = `${textarea.scrollHeight}px`;
             } else {
                 textarea.style.height = '20px';  
+                textarea.style.paddingBottom = '0.8rem';
             }
         };
         resizeTextarea();
@@ -35,12 +37,15 @@ function Query({ boolian, chat }) {
 
     const handleSubmit = () => {
         if (isValidInput(inputValue)) {
-            
+            setIsLoading(true);
+            const currentValue = inputValue;
+            setInputValue('');
             fetch('/query', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify( {query: inputValue })
+                body: JSON.stringify( {query: currentValue })
             }).then(response => response.json()).then(data => {
+                setIsLoading(false);
                 chat(data);
             })
             };
@@ -50,7 +55,7 @@ function Query({ boolian, chat }) {
         <div className='layoutquery'>
             <textarea
             ref={textareaRef}
-            placeholder={placeholderText}
+            placeholder={isLoading ? "loading" : placeholderText}
             disabled={!boolian}
             onChange={(e) => setInputValue(e.target.value)}
             value={inputValue}
@@ -59,7 +64,7 @@ function Query({ boolian, chat }) {
             />
             <button 
             onClick={handleSubmit}
-            disabled={!boolian}
+            disabled={!boolian || isLoading}
             className='miniCTA'
             >
                 Send

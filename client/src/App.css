@@ -3,6 +3,7 @@
     margin: 0rem;
     font-size: 1rem;
     color: rgba(33, 33, 33, 1);
+    line-height: 24px;
 }
 
 h1 {
@@ -15,8 +16,8 @@ h1 {
 .parent {
     display: flex;
     background-color: rgba(249, 249, 249, 1);
-    height: 100vh;
     width: 100vw;
+    min-height: 100vh;
     text-align: center;
 }
 
@@ -24,5 +25,4 @@ h1 {
     flex-grow: 1;
     margin-left: 17.5rem;
     margin-bottom: 6.25rem;
-
 }
