@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import Exit from '../assets/Exit.svg';
 import './PdfReader.css';
 
+const truncateText = (text, maxLength) => {
+    return text.length > maxLength ? text.substring(0, maxLength - 3) + "..." : text;
+  };
+
 function PdfReader({ pdfprocessed }) {
     const [selectedFile, setSelectedFile] = useState([]);
     const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
@@ -53,7 +57,7 @@ function PdfReader({ pdfprocessed }) {
                 {
                     selectedFile.map((file, index) => (
                         <div key={index} className={`pdf ${submittedFiles.includes(file) ? 'submittedPDF' : 'uploadedPDF'}`}>
-                            <h3>{file.name}</h3>
+                            <h3>{truncateText(file.name, 28)}</h3>
                             <a href="#" onClick={removeFile}>
                                 <img src={Exit} alt="Exit button" />
                             </a>

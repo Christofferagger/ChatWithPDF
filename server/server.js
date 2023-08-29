@@ -105,7 +105,7 @@ app.post('/query', async (req,res) => {
         let totalExecutionTokens = 0;
 
         const model = new ChatOpenAI({ 
-            modelName: "gpt-3.5-turbo",
+            modelName: "gpt-3.5-turbo-16k",
             callbacks: [
                 {
                     handleLLMEnd: (output, runId, parentRunId, tags) => {
