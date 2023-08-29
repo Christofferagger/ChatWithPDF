@@ -1,17 +1,21 @@
 # ChatWithPDF
 Chat with one or multiple pdf files using any of OpenAI models! **28 times cheaper** than using python and Streamlit 👀
 
-Demo: ...
+## Demo
 
-Tweet: ...
+...
+
+## Tweet
+
+...
 
 ## Set it up
-**1.** Clone the repository
+### 1. Clone the repository
 ```
 git clone https://github.com/Christofferagger/CWP.git
 ```
 
-**2.** Install all the requirements in the server file
+### 2. Install all the requirements in the server file
 ```
 cd server
 ```
@@ -19,17 +23,17 @@ cd server
 pip install -r requirements.txt
 ```
 
-**3.** Rename the .env.example file by executing the following command
+### 3. Rename the .env.example file by executing the following command
 ```
 mv .env.example .env
 ```
 
-**4.** Insert your OpenAI API key in the re-named .env file
+### 4. Insert your OpenAI API key in the re-named .env file
 ```
 Replace "Your-OpenAI-Key-Here" with your API key in the new .env file
 ```
 
-**5.** Start your local server. Perform in the terminal
+### 5. Start your local server. Perform in the terminal
 ```
 cd server
 ```
@@ -37,7 +41,7 @@ cd server
 node server.js
 ```
 
-**6.** Run your react app
+### 6. Run your react app
 ```
 cd ..
 ```
@@ -58,5 +62,3 @@ const model = new ChatOpenAI({
             modelName: "gpt-3.5-turbo-16k",
             ...
 ```
-
-Enjoy❄️
