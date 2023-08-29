@@ -15,39 +15,40 @@ Chat with one or multiple pdf files using any of OpenAI models! **28 times cheap
 git clone https://github.com/Christofferagger/CWP.git
 ```
 
-### 2. Install all the requirements in the server file
-```
-cd server
-```
-```
-pip install -r requirements.txt
-```
-
-### 3. Rename the .env.example file by executing the following command
+### 2. Rename the .env.example file by running the following command in the terminal
 ```
 mv .env.example .env
 ```
 
-### 4. Insert your OpenAI API key in the re-named .env file
+### 3. Insert your OpenAI API key in the re-named .env file
 ```
 Replace "Your-OpenAI-Key-Here" with your API key in the new .env file
 ```
 
-### 5. Start your local server. Perform in the terminal
+### 3. Navigate to the server folder in the terminal
 ```
 cd server
 ```
+
+### 4. Install all required Node.js packages
+```
+npm install
+```
+
+### 5. Start your local server by running the following command in the terminal
 ```
 node server.js
 ```
 
-### 6. Run your react app
+### 6. Navigate to the client folder in the terminal
 ```
 cd ..
 ```
 ```
 cd client
 ```
+
+### 7. Run the react app
 ```
 npm start
 ```
