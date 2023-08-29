@@ -38,7 +38,7 @@ function Chat ({ chat }) {
                         );
                     })
                 ) : (
-                    <p>Ask a question</p>
+                    <p>Insert your pdf</p>
                 )
             }
             <div ref={lastChat}></div>

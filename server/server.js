@@ -94,7 +94,6 @@ app.post('/query', async (req,res) => {
     }
 
     const query = req.body.query;
-    console.log(query);
 
     try {
         const prompt = await vectorDB.similaritySearch(query, similaritySearchLength);

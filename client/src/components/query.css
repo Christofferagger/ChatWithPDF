@@ -33,9 +33,16 @@
     background-color: rgba(0, 161, 252, 1);
     color: rgba(249, 249, 249, 1);
     border-radius: 0.5rem;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .miniCTA:disabled {
     border: 0;
     background-color: rgba(33, 33, 33, 0.1);
+}
+
+.miniCTA:not(:disabled):hover {
+    transform: scale(1.01);
+    background-color: rgba(7, 135, 208, 1);
+    cursor: pointer;
 }
