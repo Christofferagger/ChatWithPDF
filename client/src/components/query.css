@@ -14,14 +14,28 @@
     margin-right: 0.75rem;
     padding: 0.625rem;
     border-radius: 0.5rem;
+    border: 0.125rem solid rgba(33, 33, 33, 0.1);
+}
+
+.input:focus {
     border: 0.125rem solid rgba(0, 161, 252, 1);
+    outline: none;
+}
+
+.input:disabled {
+    border: 0.125rem solid rgba(33, 33, 33, 0.1);
 }
 
 .miniCTA {
     padding: 0.625rem 0.75rem;
     font-weight: 700;
-    border: 0.125rem solid rgba(0, 161, 252, 1);
+    border: 0;
     background-color: rgba(0, 161, 252, 1);
     color: rgba(249, 249, 249, 1);
     border-radius: 0.5rem;
+}
+
+.miniCTA:disabled {
+    border: 0;
+    background-color: rgba(33, 33, 33, 0.1);
 }

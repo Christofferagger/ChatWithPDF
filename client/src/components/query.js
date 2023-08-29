@@ -11,6 +11,7 @@ function Query({ boolian, chat }) {
         const resizeTextarea = () => {
             if (inputValue.trim() !== '') {
                 textarea.style.height = 'auto';
+                textarea.style.padding = '0.5rem';
                 textarea.style.height = `${textarea.scrollHeight}px`;
             } else {
                 textarea.style.height = '20px';  
