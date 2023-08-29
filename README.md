@@ -1,5 +1,5 @@
 # ChatWithPDF
-Chat with one or multiple pdf files using any of OpenAI models! **28 times cheaper** than using python and Streamlit 👀
+Chat with one or multiple pdf files using any of OpenAI models! **12 times cheaper** than using python and Streamlit 👀
 
 ## Demo
 
