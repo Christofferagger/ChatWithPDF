@@ -7,7 +7,10 @@ h3 {
     height: 100vh;
     background-color: rgba(225, 244, 250, 1);
     border-radius: 0px 12px 12px 0px;
-    position: relative;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10; 
     display: flex;
     justify-content: center;
     align-items: center;

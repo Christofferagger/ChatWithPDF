@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import './query.css';
 
 function Query({ boolian, chat }) {
 
     const [inputValue, setInputValue] = useState('');
+    const textareaRef = useRef(null);
+
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        const resizeTextarea = () => {
+            if (inputValue.trim() !== '') {
+                textarea.style.height = 'auto';
+                textarea.style.height = `${textarea.scrollHeight}px`;
+            } else {
+                textarea.style.height = '20px';  
+            }
+        };
+        resizeTextarea();
+        textarea.addEventListener('input', resizeTextarea);
+        return () => textarea.removeEventListener('input', resizeTextarea);
+    }, [inputValue]);
 
     const placeholderText = boolian ? 'What would you like to know?' : '<-- insert pdf';
 
@@ -29,18 +46,22 @@ function Query({ boolian, chat }) {
         };
 
     return (
-        <div>
-            <input type="text"
-             placeholder={placeholderText}
-             disabled={!boolian} 
-             onChange={(e) => setInputValue(e.target.value)}
-             value={inputValue}
-             />
+        <div className='layoutquery'>
+            <textarea
+            ref={textareaRef}
+            placeholder={placeholderText}
+            disabled={!boolian}
+            onChange={(e) => setInputValue(e.target.value)}
+            value={inputValue}
+            className='input'
+            rows="1" 
+            />
             <button 
             onClick={handleSubmit}
             disabled={!boolian}
+            className='miniCTA'
             >
-                Submit
+                Send
             </button>
         </div>
     )

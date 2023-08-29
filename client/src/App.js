@@ -20,10 +20,10 @@ function App() {
   return (
     <div className='parent'>
       <PdfReader pdfprocessed={handleprocess} />
+      <Query boolian={boolianValue} chat={getChatHistory} />
         <div className='content'>
           <h1>ChatWithPDF</h1>
           <Chat chat={chatHistory} />
-          <Query boolian={boolianValue} chat={getChatHistory} />
       </div>
     </div>
   );
