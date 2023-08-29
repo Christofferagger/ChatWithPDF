@@ -1,4 +1,6 @@
 import React from 'react';
+import You from '../assets/You.svg';
+import ChatIcon from '../assets/ChatIcon.svg';
 
 function Chat ({ chat }) {
 
@@ -15,8 +17,15 @@ function Chat ({ chat }) {
 
                         return (
                             <div key={index}>
-                                <p>{question}</p>
-                                <p>{response}</p>
+                                <div>
+                                    <img src={You} alt="Your icon" />
+                                    <p>{question}</p>
+                                </div>
+                                <div>
+                                    <img src={ChatIcon} alt="Chat icon" />
+                                    <p>{response}</p>
+                                </div>
+                                
                             </div>
                         );
                     })

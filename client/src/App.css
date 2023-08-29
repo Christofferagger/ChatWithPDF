@@ -2,6 +2,14 @@
     font-family: 'Lato', sans-serif;
     margin: 0rem;
     font-size: 1rem;
+    color: rgba(33, 33, 33, 1);
+}
+
+h1 {
+    font-size: 1.75rem;
+    color: rgba(33, 33, 33, 0.6);
+    font-weight: 500;
+    margin: 1.5rem;
 }
 
 .parent {
@@ -9,6 +17,7 @@
     background-color: rgba(249, 249, 249, 1);
     height: 100vh;
     width: 100vw;
+    text-align: center;
 }
 
 .content {
