@@ -6,7 +6,7 @@ https://github.com/Christofferagger/ChatWithPDF/assets/88538278/c137613b-f43a-49
 
 
 ## Tweet 🐔
-...
+https://twitter.com/C_Agger_/status/1696797024652288309?s=20
 
 ## Set it up 🤯
 ### 1. Clone the repository
