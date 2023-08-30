@@ -3,7 +3,10 @@ Chat with one or multiple pdf files using any of OpenAI models! **12 times cheap
 
 ## Demo
 
-...
+
+https://github.com/Christofferagger/CWP/assets/88538278/19e6cdae-4069-48d7-8361-3ae303ae8148
+
+
 
 ## Tweet
 
