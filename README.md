@@ -1,16 +1,14 @@
-# ChatWithPDF
+# ChatWithPDF 📄🚀
 Chat with one or multiple pdf files using any of OpenAI models! **12 times cheaper** than using python and Streamlit 👀
 
-## Demo
-
+## Demo 👀
 https://github.com/Christofferagger/ChatWithPDF/assets/88538278/c137613b-f43a-491b-9189-8cf067dcb71c
 
 
-## Tweet
-
+## Tweet 🐔
 ...
 
-## Set it up
+## Set it up 🤯
 ### 1. Clone the repository
 ```
 git clone https://github.com/Christofferagger/CWP.git
@@ -56,7 +54,7 @@ npm start
 
 Bam you got it!
 
-## Switch OpenAI model
+## Switch OpenAI model 🤖
 If you want to use another OpenAI model, head to server.js in the server folder. Then find the modelName property in the model variable. Here you can change your model to whatever you prefer! 
 Here is the code you should look for. 
 ```
@@ -64,3 +62,6 @@ const model = new ChatOpenAI({
             modelName: "gpt-3.5-turbo-16k",
             ...
 ```
+
+# Let's connect 🤘
+I need friends - Catch me on Twitter [c_Agger_](https://twitter.com/C_Agger_)
