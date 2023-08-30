@@ -3,9 +3,7 @@ Chat with one or multiple pdf files using any of OpenAI models! **12 times cheap
 
 ## Demo
 
-
-https://github.com/Christofferagger/ChatWithPDF/assets/88538278/19e6cdae-4069-48d7-8361-3ae303ae8148
-
+https://github.com/Christofferagger/ChatWithPDF/assets/88538278/c137613b-f43a-491b-9189-8cf067dcb71c
 
 
 ## Tweet
