@@ -1,5 +1,5 @@
 # ChatWithPDF 📄🚀
-Chat with one or multiple pdf files using any of OpenAI models! **12 times cheaper** than using python and Streamlit 👀
+Chat with one or multiple pdf files using any of OpenAI models!
 
 ## Set it up
 ### 1. Clone the repository
@@ -58,4 +58,5 @@ const model = new ChatOpenAI({
 
 # Let's connect 🤘
 I need friends - Catch me on Twitter [c_Agger_](https://twitter.com/C_Agger_)
+
 
