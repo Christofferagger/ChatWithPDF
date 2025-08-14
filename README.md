@@ -1,14 +1,7 @@
 # ChatWithPDF 📄🚀
 Chat with one or multiple pdf files using any of OpenAI models! **12 times cheaper** than using python and Streamlit 👀
 
-## Demo 👀
-https://github.com/Christofferagger/ChatWithPDF/assets/88538278/c137613b-f43a-491b-9189-8cf067dcb71c
-
-
-## Tweet 🐔
-https://twitter.com/C_Agger_/status/1696797024652288309?s=20
-
-## Set it up 🤯
+## Set it up
 ### 1. Clone the repository
 ```
 git clone https://github.com/Christofferagger/CWP.git
@@ -65,3 +58,4 @@ const model = new ChatOpenAI({
 
 # Let's connect 🤘
 I need friends - Catch me on Twitter [c_Agger_](https://twitter.com/C_Agger_)
+
